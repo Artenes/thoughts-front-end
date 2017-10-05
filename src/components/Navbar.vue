@@ -38,14 +38,14 @@
 
         <div class="navbar-end">
 
-            <a class="navbar-item" v-bind:class="{'navbar-active': current == 'feed'}" v-show="isLogedIn">Feed</a>
+            <a class="navbar-item is-hidden-mobile" v-bind:class="{'navbar-active': current == 'feed'}" v-show="isLogedIn">Feed</a>
 
-            <a class="navbar-item" v-bind:class="{'navbar-active': current == 'me'}" v-show="isLogedIn">Me</a>
+            <a class="navbar-item is-hidden-mobile" v-bind:class="{'navbar-active': current == 'me'}" v-show="isLogedIn">Me</a>
 
-            <a class="navbar-item" v-bind:class="{'navbar-active': current == 'pseudonym'}"
+            <a class="navbar-item is-hidden-mobile" v-bind:class="{'navbar-active': current == 'pseudonym'}"
                v-show="isLogedIn">Pseudonym</a>
 
-            <a class="navbar-item" v-bind:class="{'navbar-active': current == 'me'}" v-show="isLogedIn" @click="logOut">Exit</a>
+            <a class="navbar-item is-hidden-mobile" v-bind:class="{'navbar-active': current == 'me'}" v-show="isLogedIn" @click="logOut">Exit</a>
 
             <a class="navbar-item is-hidden-mobile" v-bind:class="{'navbar-active': current == 'enter'}"
                v-show="!isLogedIn && !busy" @click="logIn">Log in</a>
