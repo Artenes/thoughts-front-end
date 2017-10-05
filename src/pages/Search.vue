@@ -3,7 +3,7 @@
     <div class="container">
 
         <div class="has-text-centered">
-            <input class="search-input" type="text" v-model="query" placeholder="search all thoughts">
+            <input class="search-input" type="text" v-model="query" placeholder="type here to search all thoughts">
         </div>
 
         <results :results="results" :busy="busy" @loadMore="loadMore"></results>
