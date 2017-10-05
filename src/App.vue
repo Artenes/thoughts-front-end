@@ -53,6 +53,22 @@
     .vline {
         background-color: #a6a6a6;
         width: 1px;
+
+    }
+
+    .has-space {
+
+        padding-top: 3em;
+        padding-bottom: 10em;
+        text-align: center;
+
+    }
+
+    .loading {
+
+        display: block;
+        text-align: center;
+
     }
 
 </style>

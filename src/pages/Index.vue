@@ -2,7 +2,7 @@
 
     <div class="container">
 
-        <thoughts :thoughts="thoughts"></thoughts>
+        <thoughts :thoughts="thoughts" :busy="busy" @loadMore="loadMore"></thoughts>
 
     </div>
 
@@ -17,7 +17,11 @@
 
         data() {
             return{
-                thoughts: []
+                thoughts: [],
+                pagination: {
+                    next: 'http://api.thought.dev/v1/thoughts'
+                },
+                busy: false
             }
         },
 
@@ -25,11 +29,28 @@
 
         mounted() {
 
-            axios.get('http://api.thought.dev/v1/thoughts').then(function (response) {
+            this.loadMore();
 
-                this.thoughts = response.data.data;
+        },
 
-            }.bind(this));
+        methods: {
+
+            loadMore() {
+
+                this.busy = true;
+
+                if(this.pagination.next === null)
+                    return this.busy = false;
+
+                axios.get(this.pagination.next).then(function (response) {
+
+                    this.thoughts = this.thoughts.concat(response.data.data);
+                    this.pagination = response.data.links;
+                    this.busy = false;
+
+                }.bind(this));
+
+            }
 
         }
 

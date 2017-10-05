@@ -1,6 +1,6 @@
 <template>
 
-    <div>
+    <div v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-immediate-check="false" infinite-scroll-throttle-delay="1000" infinite-scroll-distance="150">
 
         <div class="columns" v-for="set in chunk">
 
@@ -18,9 +18,9 @@
                                             :title="thought.user.name"></a></p>
 
                         <p><a href="javascript:void(0)" class="has-text-danger"><span class="icon is-large"><i
-                                class="fa fa-lg fa-heart"></i></span></a></p>
+                                class="fa fa-lg fa-heart-o"></i></span></a></p>
 
-                        <small>{{ thought.likes }}34</small>
+                        <small>{{ thought.likes }}</small>
 
                     </div>
 
@@ -30,15 +30,23 @@
 
         </div>
 
+        <div class="has-text-centered" v-show="busy">
+            <img src="./../assets/loading.svg">
+        </div>
+
     </div>
 
 </template>
 
 <script>
 
+    const infiniteScroll = require('vue-infinite-scroll');
+
     export default {
 
-        props: ['thoughts'],
+        props: ['thoughts', 'busy'],
+
+        directives: {infiniteScroll},
 
         computed: {
 
@@ -57,6 +65,16 @@
                 return chunked;
 
             },
+
+        },
+
+        methods: {
+
+            loadMore() {
+
+                this.$emit('loadMore');
+
+            }
 
         }
 
@@ -98,5 +116,7 @@
         border-radius: 50%;
 
     }
+
+
 
 </style>
