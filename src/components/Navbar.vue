@@ -18,19 +18,39 @@
 
             <div class="navbar-start">
 
-                <router-link to="/" class="navbar-item" v-bind:class="{'navbar-active': current == 'latest'}">Latest</router-link>
+                <router-link to="/" class="navbar-item" v-bind:class="{'navbar-active': current == 'latest'}">Latest
+                </router-link>
 
-                <router-link to="/popular" class="navbar-item" v-bind:class="{'navbar-active': current == 'popular'}">Popular</router-link>
-
-                <a class="navbar-item" v-bind:class="{'navbar-active': current == 'feed'}">Feed</a>
-
-                <a class="navbar-item" v-bind:class="{'navbar-active': current == 'me'}">Me</a>
-
-                <a class="navbar-item" v-bind:class="{'navbar-active': current == 'pseudonym'}">Pseudonym</a>
+                <router-link to="/popular" class="navbar-item" v-bind:class="{'navbar-active': current == 'popular'}">
+                    Popular
+                </router-link>
 
                 <a class="navbar-item" v-bind:class="{'navbar-active': current == 'search'}">Search</a>
 
+                <a class="navbar-item is-hidden-desktop" v-bind:class="{'navbar-active': current == 'enter'}"
+                   v-show="!isLogedIn">Log in</a>
+
             </div>
+
+        </div>
+
+        <div class="navbar-end">
+
+            <a class="navbar-item" v-bind:class="{'navbar-active': current == 'feed'}" v-show="isLogedIn">Feed</a>
+
+            <a class="navbar-item" v-bind:class="{'navbar-active': current == 'me'}" v-show="isLogedIn">Me</a>
+
+            <a class="navbar-item" v-bind:class="{'navbar-active': current == 'pseudonym'}"
+               v-show="isLogedIn">Pseudonym</a>
+
+            <a class="navbar-item" v-bind:class="{'navbar-active': current == 'me'}" v-show="isLogedIn" @click="logOut">Exit</a>
+
+            <a class="navbar-item is-hidden-mobile" v-bind:class="{'navbar-active': current == 'enter'}"
+               v-show="!isLogedIn && !busy" @click="logIn">Log in</a>
+
+            <a class="navbar-item has-text-centered" v-show="busy">
+                <img src="./../assets/loading.svg">
+            </a>
 
         </div>
 
@@ -40,24 +60,39 @@
 
 <script>
 
+    import auth from './../utils/auth';
+    import facebook from './../utils/social-login/facebook';
+
     export default {
 
         data() {
             return {
                 current: 'latest',
-                showMenu: false
+                showMenu: false,
+                isLogedIn: false,
+                busy: false
             }
         },
 
         mounted() {
 
             this.current = this.$router.currentRoute.name;
+            this.isLogedIn = auth.check();
+
+            auth.onLogin(() => {
+                this.isLogedIn = true;
+            });
+            auth.onLogout(() => {
+                this.isLogedIn = false;
+            });
+
+            facebook.init();
 
         },
 
         watch: {
 
-            '$route' (to, from) {
+            '$route'(to, from) {
 
                 this.current = to.name;
                 this.showMenu = false;
@@ -68,8 +103,34 @@
 
         methods: {
 
-            toggleMenu(){
+            toggleMenu() {
                 this.showMenu = !this.showMenu;
+            },
+
+            logIn() {
+
+                this.busy = true;
+
+                facebook.login().then(function (token) {
+
+                    auth.login(token).then(function () {
+
+                        this.busy = false;
+
+                    }.bind(this));
+
+                }.bind(this)).catch(function (response) {
+
+                    console.log(response);
+
+                });
+
+            },
+
+            logOut() {
+
+                auth.logout();
+
             }
 
         }
