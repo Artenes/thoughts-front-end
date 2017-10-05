@@ -6,7 +6,7 @@
 
             <p class="navbar-item is-brand">Thoughts</p>
 
-            <div class="navbar-burger burger" data-target="navMenuTransparentExample" @click="showMenu = !showMenu">
+            <div class="navbar-burger burger" data-target="navMenuTransparentExample" @click="toggleMenu">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -18,17 +18,17 @@
 
             <div class="navbar-start">
 
-                <a class="navbar-item" v-bind:class="{'navbar-active': current == 'latest'}" @click="changeTab('latest')" href="#">Latest</a>
+                <router-link to="/" class="navbar-item" v-bind:class="{'navbar-active': current == 'latest'}">Latest</router-link>
 
-                <a class="navbar-item" v-bind:class="{'navbar-active': current == 'popular'}" @click="changeTab('popular')" href="#">Popular</a>
+                <router-link to="/popular" class="navbar-item" v-bind:class="{'navbar-active': current == 'popular'}">Popular</router-link>
 
-                <a class="navbar-item" v-bind:class="{'navbar-active': current == 'feed'}" @click="changeTab('feed')" href="#">Feed</a>
+                <a class="navbar-item" v-bind:class="{'navbar-active': current == 'feed'}">Feed</a>
 
-                <a class="navbar-item" v-bind:class="{'navbar-active': current == 'me'}" @click="changeTab('me')" href="#">Me</a>
+                <a class="navbar-item" v-bind:class="{'navbar-active': current == 'me'}">Me</a>
 
-                <a class="navbar-item" v-bind:class="{'navbar-active': current == 'pseudonym'}" @click="changeTab('pseudonym')" href="#">Pseudonym</a>
+                <a class="navbar-item" v-bind:class="{'navbar-active': current == 'pseudonym'}">Pseudonym</a>
 
-                <a class="navbar-item" v-bind:class="{'navbar-active': current == 'search'}" @click="changeTab('search')" href="#">Search</a>
+                <a class="navbar-item" v-bind:class="{'navbar-active': current == 'search'}">Search</a>
 
             </div>
 
@@ -49,12 +49,24 @@
             }
         },
 
-        methods: {
+        mounted() {
 
-            changeTab(newTab) {
-                this.current = newTab;
-                this.toggleMenu();
-            },
+            this.current = this.$router.currentRoute.name;
+
+        },
+
+        watch: {
+
+            '$route' (to, from) {
+
+                this.current = to.name;
+                this.showMenu = false;
+
+            }
+
+        },
+
+        methods: {
 
             toggleMenu(){
                 this.showMenu = !this.showMenu;
