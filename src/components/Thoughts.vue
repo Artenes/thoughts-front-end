@@ -20,9 +20,11 @@
                         <p><a href="javascript:void(0)" class="has-text-danger"><span class="icon is-large"><i
                                 class="fa fa-lg fa-heart-o"></i></span></a></p>
 
-                        <small>{{ thought.likes }}</small>
+                        <p><small>{{ thought.likes }}</small></p>
 
                     </div>
+
+                    <p class="time">{{ thought.created_at }}</p>
 
                 </div>
 
@@ -117,6 +119,10 @@
 
     }
 
+    .time {
 
+        font-size: 0.6em;
+
+    }
 
 </style>
