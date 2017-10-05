@@ -31,6 +31,24 @@ client.interceptors.response.use(function (response) {
 
 const api = {
 
+    get(url) {
+
+        return new Promise(function (accept, reject) {
+
+            client.get(url).then(function (response) {
+
+                accept(response.data);
+
+            }).catch(function (error) {
+
+                reject(error);
+
+            });
+
+        });
+
+    },
+
     login(service, socialToken) {
 
         return new Promise(function (accept, reject) {
@@ -45,7 +63,25 @@ const api = {
 
             });
 
-        })
+        });
+
+    },
+
+    find(search, page = 1) {
+
+        return new Promise(function (accept, reject) {
+
+            client.get('find?s=' + search + '&page=' + page).then(function (response) {
+
+                accept(response.data);
+
+            }).catch(function (error) {
+
+                reject(error);
+
+            });
+
+        });
 
     }
 

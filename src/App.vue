@@ -53,7 +53,6 @@
     .vline {
         background-color: #a6a6a6;
         width: 1px;
-
     }
 
     .has-space {
@@ -68,6 +67,19 @@
 
         display: block;
         text-align: center;
+
+    }
+
+    .sad-face {
+
+        width: 100px;
+        height: 100px;
+
+    }
+
+    .text-brown {
+
+        color: #732A0B;
 
     }
 

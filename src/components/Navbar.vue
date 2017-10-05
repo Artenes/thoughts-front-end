@@ -25,7 +25,9 @@
                     Popular
                 </router-link>
 
-                <a class="navbar-item" v-bind:class="{'navbar-active': current == 'search'}">Search</a>
+                <router-link to="/search" class="navbar-item" v-bind:class="{'navbar-active': current == 'search'}">
+                    Search
+                </router-link>
 
                 <a class="navbar-item is-hidden-desktop" v-bind:class="{'navbar-active': current == 'enter'}"
                    v-show="!isLogedIn">Log in</a>

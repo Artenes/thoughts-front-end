@@ -2,11 +2,11 @@
 
     <div v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-immediate-check="false" infinite-scroll-throttle-delay="1000" infinite-scroll-distance="150">
 
-        <div class="columns" v-for="set in chunk">
+        <div class="columns" v-for="result in results">
 
-            <div class="column" v-for="thought in set">
+            <div class="column is-half is-offset-one-quarter">
 
-                <thought :item="thought"></thought>
+                <thought :item="result"></thought>
 
             </div>
 
@@ -29,29 +29,9 @@
 
         components: {thought: Thought},
 
-        props: ['thoughts', 'busy'],
+        props: ['results', 'busy'],
 
         directives: {infiniteScroll},
-
-        computed: {
-
-            chunk() {
-
-                let start, end, chunk = 3;
-
-                let chunked = [];
-
-                for (start = 0, end = this.thoughts.length; start < end; start += chunk) {
-
-                    chunked.push(this.thoughts.slice(start, start + chunk));
-
-                }
-
-                return chunked;
-
-            },
-
-        },
 
         methods: {
 
