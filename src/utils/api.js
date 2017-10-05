@@ -1,9 +1,11 @@
 import axios from 'axios';
 import auth from './auth';
 
+const BASER_URL = 'http://api.thought.dev/v1/';
+
 const client = axios.create({
 
-    baseURL: 'http://api.thought.dev/v1/'
+    baseURL: BASER_URL
 
 });
 
@@ -30,6 +32,9 @@ client.interceptors.response.use(function (response) {
 });
 
 const api = {
+
+    popularUlr: BASER_URL + 'thoughts/popular',
+    latestUlr: BASER_URL + 'thoughts/latest',
 
     get(url) {
 

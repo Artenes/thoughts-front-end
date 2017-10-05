@@ -10,7 +10,7 @@
 
 <script>
 
-    import axios from 'axios';
+    import api from '@/utils/api';
     import Thoughts from '@/components/Thoughts';
 
     export default {
@@ -18,9 +18,7 @@
         data() {
             return{
                 thoughts: [],
-                pagination: {
-                    next: 'http://api.thought.dev/v1/thoughts/popular'
-                },
+                pagination: { next: api.popularUlr },
                 busy: false
             }
         },
@@ -42,10 +40,10 @@
                 if(this.pagination.next === null)
                     return this.busy = false;
 
-                axios.get(this.pagination.next).then(function (response) {
+                api.get(this.pagination.next).then(function (data) {
 
-                    this.thoughts = this.thoughts.concat(response.data.data);
-                    this.pagination = response.data.links;
+                    this.thoughts = this.thoughts.concat(data.data);
+                    this.pagination = data.links;
                     this.busy = false;
 
                 }.bind(this));
