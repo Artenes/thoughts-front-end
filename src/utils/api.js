@@ -83,6 +83,28 @@ const api = {
 
         });
 
+    },
+
+    toggleLike(thoughtId) {
+
+        return new Promise(function (accept, reject) {
+
+            auth.login().then(function () {
+
+                client.post('likes', {thought_id: thoughtId}).then(function (response) {
+
+                    accept(response.data);
+
+                }).catch(function (error) {
+
+                    reject(error);
+
+                });
+
+            });
+
+        });
+
     }
 
 };

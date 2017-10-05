@@ -8,13 +8,29 @@
 
         <div class="thought-footer">
 
-            <p><a href="#"><img :src="thought.user.avatar" :alt="thought.user.name"
-                                :title="thought.user.name"></a></p>
+            <p>
+                <a href="#">
+                    <img :src="thought.user.avatar" :alt="thought.user.name" :title="thought.user.name">
+                </a>
+            </p>
 
-            <p><a href="javascript:void(0)" class="has-text-danger"><span class="icon is-large"><i
-                    class="fa fa-lg fa-heart-o"></i></span></a></p>
+            <p v-show="!busy">
+                <a href="javascript:void(0)" class="has-text-danger" @click="toggleLike">
+                    <span class="icon is-large">
+                        <i class="fa fa-lg"
+                           v-bind:class="{'fa-heart-o': !thought.meta.was_liked, 'fa-heart': thought.meta.was_liked}">
+                        </i>
+                    </span>
+                </a>
+            </p>
 
-            <p><small>{{ thought.likes }}</small></p>
+            <p v-show="!busy">
+                <small>{{ thought.likes }}</small>
+            </p>
+
+            <div class="has-text-centered" v-show="busy">
+                <img src="./../assets/loading.svg">
+            </div>
 
         </div>
 
@@ -26,14 +42,35 @@
 
 <script>
 
+    import api from '@/utils/api';
+
     export default {
 
         props: ['item'],
 
-        data(){
+        data() {
             return {
-                thought: this.item
+                thought: this.item,
+                busy: false
             };
+        },
+
+        methods: {
+
+            toggleLike() {
+
+                this.busy = true;
+
+                api.toggleLike(this.thought.id).then(function () {
+
+                    this.thought.meta.was_liked = !this.thought.meta.was_liked;
+                    this.thought.likes = this.thought.meta.was_liked ? this.thought.likes + 1 : this.thought.likes - 1;
+                    this.busy = false;
+
+                }.bind(this));
+
+            }
+
         }
 
     }
