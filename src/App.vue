@@ -1,23 +1,58 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <router-view></router-view>
-  </div>
+
+    <div>
+
+        <navbar></navbar>
+
+        <router-view></router-view>
+
+    </div>
+
 </template>
 
 <script>
-export default {
-  name: 'app'
-}
+
+    import Navbar from '@/components/Navbar';
+
+    export default {
+
+        name: 'app',
+
+        components: {navbar: Navbar}
+
+    }
+
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="css">
+
+    @import "../node_modules/bulma/css/bulma.css";
+
+    #app {
+        font-family: 'Avenir', Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-align: center;
+        color: #2c3e50;
+        margin-top: 60px;
+    }
+
+    html, body {
+        background-color: #ffd571;
+        font-family: "Montserrat Alternates", sans-serif;
+        position: static;
+        margin-top: 3em;
+    }
+
+    .is-brand {
+        font-size: 1.3em;
+        text-decoration: underline;
+        font-family: Alegreya, sans-serif;
+    }
+
+    .vline {
+        background-color: #a6a6a6;
+        width: 1px;
+    }
+
 </style>
