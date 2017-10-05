@@ -113,19 +113,11 @@
 
                 this.busy = true;
 
-                facebook.login().then(function (token) {
+                auth.login().then(function () {
 
-                    auth.login(token).then(function () {
+                    this.busy = false;
 
-                        this.busy = false;
-
-                    }.bind(this));
-
-                }.bind(this)).catch(function (response) {
-
-                    console.log(response);
-
-                });
+                }.bind(this));
 
             },
 

@@ -1,6 +1,7 @@
 import ls from './localStorage';
 import bus from './bus';
 import api from './api';
+import facebook from './social-login/facebook';
 
 const AUTHT_KEY = 'JWT_TOKEN';
 
@@ -12,20 +13,33 @@ class Auth {
 
     }
 
-    login(socialToken) {
+    login() {
+
+        const $this = this;
 
         return new Promise(function (resolve, reject) {
 
-            api.login('facebook', socialToken).then(function (token) {
+            if($this.check())
+                return resolve();
 
-                ls.set(AUTHT_KEY, token);
-                bus.$emit('logedin');
+            facebook.login().then(function (socialToken) {
 
-                resolve();
+                api.login('facebook', socialToken).then(function (token) {
 
-            }).catch(function (error) {
+                    ls.set(AUTHT_KEY, token);
+                    bus.$emit('logedin');
 
-                reject(error);
+                    resolve();
+
+                }).catch(function (error) {
+
+                    reject(error);
+
+                });
+
+            }).catch(function (response) {
+
+                reject(response);
 
             });
 
