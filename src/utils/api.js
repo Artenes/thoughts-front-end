@@ -17,7 +17,7 @@ client.interceptors.request.use(function (config) {
 
 client.interceptors.response.use(function (response) {
 
-    let authorization = response.headers.Authorization;
+    let authorization = response.headers.authorization;
 
     if(authorization) {
 
