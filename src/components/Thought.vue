@@ -67,6 +67,10 @@
                     this.thought.likes = this.thought.meta.was_liked ? this.thought.likes + 1 : this.thought.likes - 1;
                     this.busy = false;
 
+                }.bind(this)).catch(function () {
+
+                    this.busy = false;
+
                 }.bind(this));
 
             }

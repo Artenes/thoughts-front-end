@@ -21,13 +21,24 @@ client.interceptors.response.use(function (response) {
 
     let authorization = response.headers.authorization;
 
-    if(authorization) {
+    if (authorization) {
 
         auth.token(authorization.split(' ')[1])
 
     }
 
     return response;
+
+}, function (error) {
+
+    if (error.response && error.response.status === 401) {
+
+        auth.logout();
+        alert('Your session has expired. Please login again.');
+
+    }
+
+    return Promise.reject(error);
 
 });
 
