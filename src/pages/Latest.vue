@@ -1,6 +1,6 @@
 <template>
 
-    <div class="container tall">
+    <div class="container tall navbar-space">
 
         <thoughts
         :busy="busy"

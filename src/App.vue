@@ -41,20 +41,8 @@
         background-color: #ffd571;
         font-family: "Montserrat Alternates", sans-serif;
         position: static;
-        margin-top: 3em;
         width: 100%;
-    }
-
-    html {
-
-        height: 85%;
-
-    }
-
-    body {
-
         height: 100%;
-
     }
 
     .is-brand {
@@ -129,6 +117,12 @@
 
         width: 50px;
         height: 50px;
+
+    }
+
+    .navbar-space {
+
+        padding-top: 6em;
 
     }
 
