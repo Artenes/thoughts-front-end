@@ -1,12 +1,17 @@
 <template>
 
-    <div class="tall" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-immediate-check="false" infinite-scroll-throttle-delay="1000" infinite-scroll-distance="150">
+    <div v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-immediate-check="false"
+         infinite-scroll-throttle-delay="1000" infinite-scroll-distance="500">
+
+        <div v-if="showSearch" class="has-text-centered">
+            <input class="search-input" type="text" v-model="query" placeholder="type here to search all thoughts">
+        </div>
 
         <div class="columns" v-for="set in chunk">
 
             <div class="column" v-for="thought in set">
 
-                <thought :item="thought"></thought>
+                <thought :item="thought" :displayOptions="thoughtDisplay"></thought>
 
             </div>
 
@@ -16,11 +21,18 @@
             <img src="./../assets/loading.svg">
         </div>
 
-        <div v-if="thoughts.length == 0 && !busy" class="center">
+        <div v-if="thoughts.length == 0 && !busy && !searched" class="center">
             <span class="icon is-large">
-                <i :class="'fa fa-3x fa-' + icon"></i>
+                <i :class="'fa fa-3x fa-' + initialMessage.icon"></i>
             </span>
-            <p>{{ info }}</p>
+            <p>{{ initialMessage.message }}</p>
+        </div>
+
+        <div v-if="thoughts.length == 0 && !busy && searched" class="has-text-centered">
+            <span class="icon is-large">
+                <i :class="'fa fa-3x fa-' + emptyMessage.icon"></i>
+            </span>
+            <p>{{ emptyMessage.message }}</p>
         </div>
 
     </div>
@@ -30,6 +42,7 @@
 <script>
 
     import api from '@/utils/api';
+
     const infiniteScroll = require('vue-infinite-scroll');
     import Thought from '@/components/Thought';
 
@@ -37,15 +50,78 @@
 
         components: {thought: Thought},
 
-        props: ['url', 'icon', 'info'],
+        props: {
+
+            busy: {
+                type: Boolean,
+                required: true,
+                default: false
+            },
+
+            thoughts: {
+                type: Array,
+                required: true,
+                default: function () {
+                    return [];
+                }
+            },
+
+            initialMessage: {
+                type: Object,
+                required: false,
+                default: function () {
+                    return {
+                        icon: 'commenting-o',
+                        message: 'Here lies some thoughts'
+                    };
+                }
+            },
+
+            emptyMessage: {
+                type: Object,
+                required: false,
+                default: function () {
+                    return {
+                        icon: 'frown-o',
+                        message: 'No one is thinking about this'
+                    };
+                }
+            },
+
+            showSearch: {
+                type: Boolean,
+                required: false,
+                default: false
+            },
+
+            numberOfColumns: {
+                type: Number,
+                required: false,
+                default: 3
+            },
+
+            thoughtDisplay: {
+                type: Object,
+                required: false,
+                default: function () {
+                    return {
+                        showBody: true,
+                        showAvatar: true,
+                        showLikes: true,
+                        showTime: true
+                    };
+                }
+            }
+
+        },
 
         directives: {infiniteScroll},
 
         data() {
             return {
-                thoughts: [],
-                busy: false,
-                pagination: { next: this.url }
+                query: '',
+                timeout: null,
+                searched: false
             };
         },
 
@@ -55,11 +131,26 @@
 
         },
 
+        watch: {
+
+            query(newValue) {
+
+                clearTimeout(this.timeout);
+                this.timeout = setTimeout(function () {
+
+                    this.search(newValue);
+
+                }.bind(this), 500);
+
+            }
+
+        },
+
         computed: {
 
             chunk() {
 
-                let start, end, chunk = 3;
+                let start, end, chunk = this.numberOfColumns;
 
                 let chunked = [];
 
@@ -79,23 +170,42 @@
 
             loadMore() {
 
-                this.busy = true;
+                this.$emit('loadMore');
 
-                if(this.pagination.next === null)
-                    return this.busy = false;
+            },
 
-                api.get(this.pagination.next).then(function (data) {
+            search(search) {
 
-                    this.thoughts = this.thoughts.concat(data.data);
-                    this.pagination = data.links;
-                    this.busy = false;
+                this.searched = true;
 
-                }.bind(this));
+                this.$emit('search', search);
 
-            }
+            },
 
         }
 
     }
 
 </script>
+
+<style scoped>
+
+    .search-input {
+
+        border: none;
+        width: 100%;
+        height: 50px;
+        text-align: center;
+        margin-bottom: 5em;
+        font-family: inherit;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 10px;
+        box-shadow: #ffbd55 0 10px 30px;
+
+    }
+
+    .icon {
+        margin-bottom: 1em;
+    }
+
+</style>

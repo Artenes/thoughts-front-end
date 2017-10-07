@@ -1,17 +1,17 @@
 <template>
 
-    <div class="container">
+    <div class="container tall">
 
-        <div class="has-text-centered">
-            <input class="search-input" type="text" v-model="query" placeholder="type here to search all thoughts">
-        </div>
+        <thoughts
+                :busy="busy"
+                :thoughts="thoughts"
+                :showSearch="true"
+                :initialMessage="initialMessage"
+                :numberOfColumns="1"
+                @loadMore="loadMore"
+                @search="search">
 
-        <results :results="results" :busy="busy" @loadMore="loadMore"></results>
-
-        <div class="has-text-centered has-space" v-show="results.length === 0 && searched && !busy">
-            <img src="./../assets/sad.png" alt="Nothing found" class="sad-face">
-            <p class="text-brown">Nothing found</p>
-        </div>
+        </thoughts>
 
     </div>
 
@@ -19,69 +19,55 @@
 
 <script>
 
-    import api from './../utils/api';
-    import Results from '@/components/Results';
+    import api from '@/utils/api';
+    import Thoughts from '@/components/Thoughts';
 
     export default {
 
+        components: {thoughts: Thoughts},
+
         data() {
             return {
-                results: [],
+                api: api,
+                thoughts: [],
                 pagination: {},
                 busy: false,
-                query: '',
-                timeout: null,
-                searched: false
+                initialMessage: {
+                    icon: 'search',
+                    message: 'Search for some thoughts'
+                }
             }
-        },
-
-        components: {results: Results},
-
-        watch: {
-
-            query(newValue) {
-
-                clearTimeout(this.timeout);
-                this.timeout = setTimeout(function () {
-
-                    this.search(newValue);
-
-                }.bind(this), 500);
-
-            }
-
         },
 
         methods: {
 
-            search(search) {
-
-                this.busy = true;
-
-                this.results = [];
-                this.pagination = {};
-
-                api.find(search).then(function (data) {
-
-                    this.results = data.data;
-                    this.pagination = data.links;
-                    this.busy = false;
-                    this.searched = true;
-
-                }.bind(this));
-
-            },
-
             loadMore() {
 
-                if (this.pagination.next === null)
+                if (!this.pagination.next)
                     return;
 
                 this.busy = true;
 
                 api.get(this.pagination.next).then(function (data) {
 
-                    this.results = this.results.concat(data.data);
+                    this.thoughts = this.thoughts.concat(data.data);
+                    this.pagination = data.links;
+                    this.busy = false;
+
+                }.bind(this));
+
+            },
+
+            search(search) {
+
+                this.busy = true;
+
+                this.thoughts = [];
+                this.pagination = {};
+
+                api.find(search).then(function (data) {
+
+                    this.thoughts = data.data;
                     this.pagination = data.links;
                     this.busy = false;
 
@@ -94,21 +80,3 @@
     }
 
 </script>
-
-<style>
-
-    .search-input {
-
-        border: none;
-        width: 100%;
-        height: 50px;
-        text-align: center;
-        margin-bottom: 5em;
-        font-family: inherit;
-        background-color: rgba(255, 255, 255, 0.9);
-        border-radius: 10px;
-        box-shadow: #ffbd55 0 10px 30px;
-
-    }
-
-</style>

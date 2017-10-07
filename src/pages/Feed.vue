@@ -2,7 +2,13 @@
 
     <div class="container tall">
 
-        <thoughts :url="api.feedUlr" icon="commenting-o" info="When you start following someone, their thoughts will appear here"></thoughts>
+        <thoughts
+                :busy="busy"
+                :thoughts="thoughts"
+                :initialMessage="initialMessage"
+                @loadMore="loadMore">
+
+        </thoughts>
 
     </div>
 
@@ -17,10 +23,38 @@
 
         components: {thoughts: Thoughts},
 
-        data(){
-            return {
-                api: api
-            };
+        data() {
+            return{
+                api: api,
+                thoughts: [],
+                pagination: {next: api.feedUlr},
+                busy: false,
+                initialMessage: {
+                    icon: 'commenting-o',
+                    message: 'When you start following someone, their thoughts will appear here'
+                }
+            }
+        },
+
+        methods: {
+
+            loadMore() {
+
+                if(!this.pagination.next)
+                    return;
+
+                this.busy = true;
+
+                api.get(this.pagination.next).then(function (data) {
+
+                    this.thoughts = this.thoughts.concat(data.data);
+                    this.pagination = data.links;
+                    this.busy = false;
+
+                }.bind(this));
+
+            }
+
         }
 
     }

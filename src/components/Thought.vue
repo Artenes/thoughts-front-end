@@ -2,19 +2,19 @@
 
     <div class="thought">
 
-        <div class="thought-body">
+        <div class="thought-body" v-if="displayOptions.showBody">
             {{ thought.body }}
         </div>
 
         <div class="thought-footer">
 
-            <p>
+            <p v-if="displayOptions.showAvatar">
                 <router-link :to="'/user/' + thought.user.username">
                     <img :src="thought.user.avatar" :alt="thought.user.name" :title="thought.user.name">
                 </router-link>
             </p>
 
-            <p v-show="!busy" class="likes">
+            <p v-if="displayOptions.showLikes" v-show="!busy" class="likes">
 
                 <span class="icon has-text-danger" v-if="!isLogedIn">
                     <i class="fa fa-lg fa-heart-o"></i>
@@ -37,7 +37,7 @@
 
         </div>
 
-        <p class="time">{{ thought.created_at }}</p>
+        <p v-if="displayOptions.showTime" class="time">{{ thought.created_at }}</p>
 
     </div>
 
@@ -50,7 +50,27 @@
 
     export default {
 
-        props: ['item'],
+        props: {
+
+            item: {
+                type: Object,
+                required: true
+            },
+
+            displayOptions: {
+                type: Object,
+                required: false,
+                default: function () {
+                    return {
+                        showBody: true,
+                        showAvatar: true,
+                        showLikes: true,
+                        showTime: true
+                    };
+                }
+            }
+
+        },
 
         data() {
             return {
@@ -64,8 +84,12 @@
 
             this.isLogedIn = auth.check();
 
-            auth.onLogin(function () { this.isLogedIn = true; }.bind(this));
-            auth.onLogout(function () { this.isLogedIn = false; }.bind(this));
+            auth.onLogin(function () {
+                this.isLogedIn = true;
+            }.bind(this));
+            auth.onLogout(function () {
+                this.isLogedIn = false;
+            }.bind(this));
 
         },
 

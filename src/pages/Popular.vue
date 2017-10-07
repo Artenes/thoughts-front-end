@@ -2,7 +2,12 @@
 
     <div class="container tall">
 
-        <thoughts :url="api.popularUlr" icon="start-o" info="No one thought about popularity"></thoughts>
+        <thoughts
+                :busy="busy"
+                :thoughts="thoughts"
+                @loadMore="loadMore">
+
+        </thoughts>
 
     </div>
 
@@ -18,9 +23,33 @@
         components: {thoughts: Thoughts},
 
         data() {
-            return{
-                api: api
+            return {
+                api: api,
+                thoughts: [],
+                pagination: {next: api.popularUlr},
+                busy: false
             }
+        },
+
+        methods: {
+
+            loadMore() {
+
+                if (!this.pagination.next)
+                    return;
+
+                this.busy = true;
+
+                api.get(this.pagination.next).then(function (data) {
+
+                    this.thoughts = this.thoughts.concat(data.data);
+                    this.pagination = data.links;
+                    this.busy = false;
+
+                }.bind(this));
+
+            }
+
         }
 
     }

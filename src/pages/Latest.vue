@@ -2,7 +2,12 @@
 
     <div class="container tall">
 
-        <thoughts :url="api.latestUlr" icon="clock-o" info="I guess no one likes to think"></thoughts>
+        <thoughts
+        :busy="busy"
+        :thoughts="thoughts"
+        @loadMore="loadMore">
+
+        </thoughts>
 
     </div>
 
@@ -19,8 +24,32 @@
 
         data() {
             return{
-                api: api
+                api: api,
+                thoughts: [],
+                pagination: {next: api.latestUlr},
+                busy: false
             }
+        },
+
+        methods: {
+
+            loadMore() {
+
+                if(!this.pagination.next)
+                    return;
+
+                this.busy = true;
+
+                api.get(this.pagination.next).then(function (data) {
+
+                    this.thoughts = this.thoughts.concat(data.data);
+                    this.pagination = data.links;
+                    this.busy = false;
+
+                }.bind(this));
+
+            }
+
         }
 
     }
