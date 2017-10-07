@@ -4,7 +4,7 @@
 
         <div class="columns tall">
 
-            <div class="column is-2 center profile">
+            <div class="column is-2 center profile tall navbar-space">
 
                 <div class="has-text-centered" v-if="!busy">
 
@@ -20,7 +20,9 @@
 
             </div>
 
-            <div class="column is-10">
+            <div class="column is-10 navbar-space thoughts">
+
+                <user-thoughts v-if="user.data.id" :user="user"></user-thoughts>
 
             </div>
 
@@ -34,17 +36,18 @@
 
     import api from '@/utils/api';
     import Follow from '@/components/Follow';
+    import UserThoughts from '@/components/UserThoughts';
 
     export default {
 
-        components: {follow: Follow},
+        components: {follow: Follow, 'user-thoughts': UserThoughts},
 
         data() {
             return {
                 busy: false,
                 followBusy: false,
                 user: {
-                    data: {name: 'loading'},
+                    data: {name: null},
                     meta: {following: false},
                 }
             };
@@ -93,11 +96,15 @@
 
     .profile {
 
-        position: absolute;
-        left: 0;
-        top: 0;
         background-color: #ffcf5d;
-        box-shadow: #ffbd55 10px 0 10px;
+        box-shadow: #ffbd55 10px 10px 10px;
+
+    }
+
+    .thoughts {
+
+        padding-left: 1em;
+        padding-right: 1em;
 
     }
 

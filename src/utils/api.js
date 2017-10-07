@@ -47,6 +47,7 @@ const api = {
     popularUlr: BASER_URL + 'thoughts/popular',
     latestUlr: BASER_URL + 'thoughts/latest',
     feedUlr: BASER_URL + 'feed',
+    userThoughtsUrl: BASER_URL + 'thoughts/user/',
 
     get(url) {
 

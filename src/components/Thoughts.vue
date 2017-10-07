@@ -4,7 +4,7 @@
          infinite-scroll-throttle-delay="1000" infinite-scroll-distance="500">
 
         <div v-if="showSearch" class="has-text-centered">
-            <input class="search-input" type="text" v-model="query" placeholder="type here to search all thoughts">
+            <input class="search-input" type="text" v-model="query" :placeholder="searchPlaceholder">
         </div>
 
         <div class="columns" v-for="set in chunk">
@@ -92,6 +92,12 @@
                 type: Boolean,
                 required: false,
                 default: false
+            },
+
+            searchPlaceholder: {
+                type: String,
+                required: false,
+                default: 'search thoughts'
             },
 
             numberOfColumns: {
