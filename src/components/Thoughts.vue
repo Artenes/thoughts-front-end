@@ -1,6 +1,6 @@
 <template>
 
-    <div v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-immediate-check="false" infinite-scroll-throttle-delay="1000" infinite-scroll-distance="150">
+    <div class="tall" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-immediate-check="false" infinite-scroll-throttle-delay="1000" infinite-scroll-distance="150">
 
         <div class="columns" v-for="set in chunk">
 
@@ -16,12 +16,20 @@
             <img src="./../assets/loading.svg">
         </div>
 
+        <div v-if="thoughts.length == 0 && !busy" class="center">
+            <span class="icon is-large">
+                <i :class="'fa fa-3x fa-' + icon"></i>
+            </span>
+            <p>{{ info }}</p>
+        </div>
+
     </div>
 
 </template>
 
 <script>
 
+    import api from '@/utils/api';
     const infiniteScroll = require('vue-infinite-scroll');
     import Thought from '@/components/Thought';
 
@@ -29,9 +37,23 @@
 
         components: {thought: Thought},
 
-        props: ['thoughts', 'busy'],
+        props: ['url', 'icon', 'info'],
 
         directives: {infiniteScroll},
+
+        data() {
+            return {
+                thoughts: [],
+                busy: false,
+                pagination: { next: this.url }
+            };
+        },
+
+        mounted() {
+
+            this.loadMore();
+
+        },
 
         computed: {
 
@@ -57,7 +79,18 @@
 
             loadMore() {
 
-                this.$emit('loadMore');
+                this.busy = true;
+
+                if(this.pagination.next === null)
+                    return this.busy = false;
+
+                api.get(this.pagination.next).then(function (data) {
+
+                    this.thoughts = this.thoughts.concat(data.data);
+                    this.pagination = data.links;
+                    this.busy = false;
+
+                }.bind(this));
 
             }
 

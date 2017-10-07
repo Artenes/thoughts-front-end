@@ -1,8 +1,8 @@
 <template>
 
-    <div class="container">
+    <div class="container tall">
 
-        <thoughts :thoughts="thoughts" :busy="busy" @loadMore="loadMore"></thoughts>
+        <thoughts :url="api.popularUlr" icon="start-o" info="No one thought about popularity"></thoughts>
 
     </div>
 
@@ -15,41 +15,12 @@
 
     export default {
 
-        data() {
-            return{
-                thoughts: [],
-                pagination: { next: api.popularUlr },
-                busy: false
-            }
-        },
-
         components: {thoughts: Thoughts},
 
-        mounted() {
-
-            this.loadMore();
-
-        },
-
-        methods: {
-
-            loadMore() {
-
-                this.busy = true;
-
-                if(this.pagination.next === null)
-                    return this.busy = false;
-
-                api.get(this.pagination.next).then(function (data) {
-
-                    this.thoughts = this.thoughts.concat(data.data);
-                    this.pagination = data.links;
-                    this.busy = false;
-
-                }.bind(this));
-
+        data() {
+            return{
+                api: api
             }
-
         }
 
     }
