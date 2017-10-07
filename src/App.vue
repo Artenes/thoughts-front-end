@@ -1,6 +1,6 @@
 <template>
 
-    <div>
+    <div class="tall">
 
         <navbar></navbar>
 
@@ -42,6 +42,8 @@
         font-family: "Montserrat Alternates", sans-serif;
         position: static;
         margin-top: 3em;
+        height: 85%;
+        width: 100%;
     }
 
     .is-brand {
@@ -80,6 +82,29 @@
     .text-brown {
 
         color: #732A0B;
+
+    }
+
+    .center {
+
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-flow: column;
+
+    }
+
+    .tall {
+
+        height: 100%;
+
+    }
+
+    span.icon {
+
+        margin-bottom: 1em;
 
     }
 
