@@ -14,18 +14,18 @@
                 </router-link>
             </p>
 
-            <p v-show="!busy">
+            <p v-show="!busy" class="likes">
+
                 <a href="javascript:void(0)" class="has-text-danger" @click="toggleLike">
-                    <span class="icon is-large">
+                    <span class="icon">
                         <i class="fa fa-lg"
                            v-bind:class="{'fa-heart-o': !thought.meta.was_liked, 'fa-heart': thought.meta.was_liked}">
                         </i>
                     </span>
                 </a>
-            </p>
 
-            <p v-show="!busy">
-                <small>{{ thought.likes }}</small>
+                <small style="display: block">{{ thought.likes }}</small>
+
             </p>
 
             <div class="has-text-centered" v-show="busy">
@@ -43,6 +43,7 @@
 <script>
 
     import api from '@/utils/api';
+    import auth from '@/utils/auth';
 
     export default {
 
@@ -51,8 +52,18 @@
         data() {
             return {
                 thought: this.item,
-                busy: false
+                busy: false,
+                isLogedIn: false
             };
+        },
+
+        mounted() {
+
+            this.isLogedIn = auth.check();
+
+            auth.onLogin(function () { this.isLogedIn = true; }.bind(this));
+            auth.onLogout(function () { this.isLogedIn = false; }.bind(this));
+
         },
 
         methods: {
@@ -81,7 +92,7 @@
 
 </script>
 
-<style>
+<style scoped>
 
     .thought {
 
@@ -120,6 +131,13 @@
     .time {
 
         font-size: 0.6em;
+
+    }
+
+    .likes {
+
+        margin-bottom: 1em;
+        margin-top: 1em;
 
     }
 
