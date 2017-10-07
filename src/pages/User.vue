@@ -22,7 +22,16 @@
 
             <div class="column is-10 navbar-space thoughts">
 
-                <user-thoughts v-if="user.data.id" :user="user"></user-thoughts>
+                <div class="tabs is-centered">
+                    <ul>
+                        <li v-bind:class="{'is-active' : tab == 'thoughts'}" @click="tab = 'thoughts'"><a>Thoughts</a></li>
+                        <li v-bind:class="{'is-active' : tab == 'likes'}" @click="tab = 'likes'"><a>Likes</a></li>
+                    </ul>
+                </div>
+
+                <user-thoughts v-if="user.data.id" v-show="tab == 'thoughts'" :user="user"></user-thoughts>
+
+                <user-likes v-if="user.data.id" v-show="tab == 'likes'" :user="user"></user-likes>
 
             </div>
 
@@ -37,13 +46,15 @@
     import api from '@/utils/api';
     import Follow from '@/components/Follow';
     import UserThoughts from '@/components/UserThoughts';
+    import UserLikes from '@/components/UserLikes';
 
     export default {
 
-        components: {follow: Follow, 'user-thoughts': UserThoughts},
+        components: {follow: Follow, 'user-thoughts': UserThoughts, 'user-likes': UserLikes},
 
         data() {
             return {
+                tab: 'thoughts',
                 busy: false,
                 followBusy: false,
                 user: {
@@ -105,6 +116,27 @@
 
         padding-left: 1em;
         padding-right: 1em;
+
+    }
+
+    .tabs li.is-active a {
+
+        color: #772A00;
+        border-bottom-color: #772A00;
+
+    }
+
+    .tabs a {
+
+        color: #e5aa4c;
+        border-bottom-color: #e5aa4c;
+        font-weight: bolder;
+
+    }
+
+    .tabs ul {
+
+        border-bottom-color: #FFBD55;
 
     }
 

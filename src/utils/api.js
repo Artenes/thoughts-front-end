@@ -48,6 +48,7 @@ const api = {
     latestUlr: BASER_URL + 'thoughts/latest',
     feedUlr: BASER_URL + 'feed',
     userThoughtsUrl: BASER_URL + 'thoughts/user/',
+    userLikesUrl: BASER_URL + 'likes/user/',
 
     get(url) {
 

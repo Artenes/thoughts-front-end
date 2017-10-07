@@ -10,6 +10,7 @@
                 :emptyMessage="emptyMessage"
                 :numberOfColumns="2"
                 :thoughtDisplay="thoughtsDisplay"
+                :searchPlaceholder="'search likes'"
                 @loadMore="loadMore"
                 @search="search">
 
@@ -32,7 +33,7 @@
 
         data() {
 
-            const baseUrl = api.userThoughtsUrl + this.user.data.id;
+            const baseUrl = api.userLikesUrl + this.user.data.id;
 
             return {
                 baseUrl: baseUrl,
@@ -42,11 +43,11 @@
                 busy: false,
                 initialMessage: {
                     icon: 'search',
-                    message: `Search ${this.user.data.name} thoughts`
+                    message: `Search ${this.user.data.name} likes`
                 },
                 emptyMessage: {
                     icon: 'frown-o',
-                    message: `no thoughts here`
+                    message: `no likes here`
                 },
                 thoughtsDisplay: {
                     showBody: true,
