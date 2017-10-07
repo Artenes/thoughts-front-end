@@ -122,6 +122,24 @@ const api = {
 
         });
 
+    },
+
+    user(username) {
+
+        return new Promise(function (accept, reject) {
+
+            client.get('user/' + username).then(function (response) {
+
+                accept(response.data);
+
+            }).catch(function (error) {
+
+                reject(error);
+
+            });
+
+        });
+
     }
 
 };

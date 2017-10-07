@@ -9,9 +9,9 @@
         <div class="thought-footer">
 
             <p>
-                <a href="#">
+                <router-link :to="'/user/' + thought.user.username">
                     <img :src="thought.user.avatar" :alt="thought.user.name" :title="thought.user.name">
-                </a>
+                </router-link>
             </p>
 
             <p v-show="!busy">

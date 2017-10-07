@@ -42,8 +42,19 @@
         font-family: "Montserrat Alternates", sans-serif;
         position: static;
         margin-top: 3em;
-        height: 85%;
         width: 100%;
+    }
+
+    html {
+
+        height: 85%;
+
+    }
+
+    body {
+
+        height: 100%;
+
     }
 
     .is-brand {
@@ -105,6 +116,18 @@
     span.icon {
 
         margin-bottom: 1em;
+
+    }
+
+    .round {
+
+        border-radius: 50%;
+
+    }
+
+    .tags {
+
+        justify-content: center;
 
     }
 
