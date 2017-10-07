@@ -12,16 +12,7 @@
                     <p>{{ user.data.name }}</p>
                     <small>{{ user.data.username }}</small>
                     <hr>
-                    <div class="followers">
-                        <p>{{ user.data.followers }}</p>
-                        <p>Followers</p>
-                    </div>
-                    <span class="icon is-large follow has-text-info" title="follow" @click="follow">
-                        <i class="fa fa-lg"
-                           v-bind:class="{'fa-plus-square-o': !user.meta.following, 'fa-plus-square': user.meta.following}">
-                        </i>
-                    </span>
-
+                    <follow :user="user" class="followers"></follow>
                 </div>
                 <div class="has-text-centered" v-else>
                     <img src="./../assets/loading.svg">
@@ -42,12 +33,16 @@
 <script>
 
     import api from '@/utils/api';
+    import Follow from '@/components/Follow';
 
     export default {
+
+        components: {follow: Follow},
 
         data() {
             return {
                 busy: false,
+                followBusy: false,
                 user: {
                     data: {name: 'loading'},
                     meta: {following: false},
@@ -66,17 +61,6 @@
                 this.busy = false;
 
             }.bind(this));
-
-        },
-
-        methods: {
-
-            follow() {
-
-                this.user.meta.following = !this.user.meta.following;
-                this.user.data.followers = this.user.meta.following ? this.user.data.followers + 1 : this.user.data.followers - 1;
-
-            }
 
         }
 
@@ -104,12 +88,6 @@
 
         margin-top: 1em;
         font-size: 1em;
-
-    }
-
-    .follow {
-
-        cursor: pointer;
 
     }
 

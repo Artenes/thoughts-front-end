@@ -124,6 +124,24 @@ const api = {
 
     },
 
+    toggleFollow(userId) {
+
+        return new Promise(function (accept, reject) {
+
+            client.post('followers', {user_id: userId}).then(function (response) {
+
+                accept(response.data);
+
+            }).catch(function (error) {
+
+                reject(error);
+
+            });
+
+        });
+
+    },
+
     user(username) {
 
         return new Promise(function (accept, reject) {

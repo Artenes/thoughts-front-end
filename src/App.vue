@@ -113,12 +113,6 @@
 
     }
 
-    span.icon {
-
-        margin-bottom: 1em;
-
-    }
-
     .round {
 
         border-radius: 50%;
@@ -128,6 +122,13 @@
     .tags {
 
         justify-content: center;
+
+    }
+
+    .small {
+
+        width: 50px;
+        height: 50px;
 
     }
 
