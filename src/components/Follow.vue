@@ -5,7 +5,7 @@
         <p>{{ followers }}</p>
         <p>Followers</p>
         <div v-if="!busy">
-            <span class="icon is-large follow has-text-info" title="follow" @click="follow" v-if="isLogedIn">
+            <span class="icon is-large follow has-text-info" title="follow" @click="follow" v-if="isLogedIn && !user.meta.is_authenticated">
                 <i class="fa fa-lg"
                    v-bind:class="{'fa-plus-square-o': !following, 'fa-plus-square': following}">
                 </i>
