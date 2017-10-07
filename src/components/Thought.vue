@@ -16,7 +16,10 @@
 
             <p v-show="!busy" class="likes">
 
-                <a href="javascript:void(0)" class="has-text-danger" @click="toggleLike">
+                <span class="icon has-text-danger" v-if="!isLogedIn">
+                    <i class="fa fa-lg fa-heart-o"></i>
+                </span>
+                <a href="javascript:void(0)" class="has-text-danger" @click="toggleLike" v-else>
                     <span class="icon">
                         <i class="fa fa-lg"
                            v-bind:class="{'fa-heart-o': !thought.meta.was_liked, 'fa-heart': thought.meta.was_liked}">
