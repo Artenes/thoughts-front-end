@@ -1,0 +1,10 @@
+{
+  "name": "thoughts",
+  "version": "1.0.0",
+  "description": "peoples thoughts",
+  "author": "Artenes Nogueira <artenesama@gmail.com>",
+  "private": true,
+  "scripts": {
+    "postinstall": "npm install express"
+  }
+}
