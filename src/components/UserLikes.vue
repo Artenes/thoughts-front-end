@@ -51,7 +51,7 @@
                 },
                 thoughtsDisplay: {
                     showBody: true,
-                    showAvatar: false,
+                    showAvatar: true,
                     showLikes: true,
                     showTime: true
                 }

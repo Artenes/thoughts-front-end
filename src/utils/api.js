@@ -144,11 +144,13 @@ const api = {
 
     },
 
-    user(username) {
+    user(username = null) {
 
         return new Promise(function (accept, reject) {
 
-            client.get('user/' + username).then(function (response) {
+            const route = username ? 'user/' + username : 'user';
+
+            client.get(route).then(function (response) {
 
                 accept(response.data);
 

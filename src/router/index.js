@@ -16,7 +16,8 @@ export default new Router({
         {path: '/popular', name: 'popular', component: Popular},
         {path: '/search', name: 'search', component: Search},
         {path: '/feed', name: 'feed', component: Feed},
-        {path: '/user/:username', name: 'user', component: User}
+        {path: '/user/:username', name: 'user', component: User},
+        {path: '/me', name: 'me', component: User}
 
     ]
 })
