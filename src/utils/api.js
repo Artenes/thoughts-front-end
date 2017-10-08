@@ -1,7 +1,7 @@
 import axios from 'axios';
 import auth from './auth';
 
-const BASER_URL = 'http://api.thought.dev/v1/';
+const BASER_URL = process.env.API_URL;
 
 const client = axios.create({
 
