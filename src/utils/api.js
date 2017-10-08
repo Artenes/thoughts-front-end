@@ -74,7 +74,7 @@ const api = {
 
             client.post('login', {service, token: socialToken}).then(function (response) {
 
-                accept(response.data.token);
+                accept(response.data);
 
             }).catch(function (error) {
 

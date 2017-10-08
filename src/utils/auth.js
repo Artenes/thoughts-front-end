@@ -3,13 +3,15 @@ import bus from './bus';
 import api from './api';
 import facebook from './social-login/facebook';
 
-const AUTHT_KEY = 'JWT_TOKEN';
+const JWT_TOKEN = 'JWT_TOKEN';
+const AUTH_USER = 'AUTH_USER';
+const AUTH_PSEUDO = 'AUTH_PSEUDO';
 
 class Auth {
 
     check() {
 
-        return !!ls.get(AUTHT_KEY, false);
+        return !!ls.get(JWT_TOKEN, false);
 
     }
 
@@ -24,9 +26,11 @@ class Auth {
 
             facebook.login().then(function (socialToken) {
 
-                api.login('facebook', socialToken).then(function (token) {
+                api.login('facebook', socialToken).then(function (data) {
 
-                    ls.set(AUTHT_KEY, token);
+                    ls.set(JWT_TOKEN, data.token);
+                    ls.set(AUTH_USER, data.user.data);
+                    ls.set(AUTH_PSEUDO, data.user.pseudonym);
                     bus.$emit('logedin');
 
                     resolve();
@@ -49,7 +53,7 @@ class Auth {
 
     logout() {
 
-        ls.set(AUTHT_KEY, null);
+        ls.set(JWT_TOKEN, null);
         bus.$emit('logedout');
 
     }
@@ -57,9 +61,27 @@ class Auth {
     token(token = null) {
 
         if (token)
-            return ls.set(AUTHT_KEY, token);
+            return ls.set(JWT_TOKEN, token);
 
-        return ls.get(AUTHT_KEY);
+        return ls.get(JWT_TOKEN);
+
+    }
+
+    user() {
+
+        if(!this.check())
+            return null;
+
+        return ls.get(AUTH_USER);
+
+    }
+
+    pseudonym() {
+
+        if(!this.check())
+            return null;
+
+        return ls.get(AUTH_PSEUDO);
 
     }
 

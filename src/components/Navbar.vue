@@ -38,6 +38,9 @@
 
         <div class="navbar-end">
 
+            <router-link to="/me" class="navbar-item is-hidden-mobile" v-bind:class="{'navbar-active': current == 'me'}"
+                         v-show="isLogedIn"><img class="round" :src="auth.user().avatar" :alt="auth.user().name"></router-link>
+
             <router-link to="/feed" class="navbar-item is-hidden-mobile"
                          v-bind:class="{'navbar-active': current == 'feed'}" v-show="isLogedIn">Feed
             </router-link>
@@ -76,6 +79,7 @@
                 showMenu: false,
                 isLogedIn: false,
                 busy: false
+                auth: auth,
             }
         },
 
