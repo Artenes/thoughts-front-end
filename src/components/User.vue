@@ -2,7 +2,7 @@
 
     <div class="tall">
 
-        <div class="columns tall">
+        <div class="columns tall" v-if="user">
 
             <div class="column is-2 center profile tall navbar-space">
 
@@ -52,50 +52,20 @@
 
         components: {follow: Follow, 'user-thoughts': UserThoughts, 'user-likes': UserLikes},
 
+        props: ['user', 'busy'],
+
         data() {
             return {
                 tab: 'thoughts',
-                busy: false,
-                followBusy: false,
-                user: {
-                    data: {name: null},
-                    meta: {following: false},
-                }
+                followBusy: false
             };
         },
 
         watch: {
 
-            '$route'(to) {
+            user() {
 
-                this.fetchUser(to.params.username);
-
-            }
-
-        },
-
-        mounted() {
-
-            this.fetchUser(this.$router.currentRoute.params.username);
-
-        },
-
-        methods: {
-
-            fetchUser(username = null) {
-
-                this.user.data.id = false;
                 this.tab = 'thoughts';
-
-                this.busy = true;
-
-                api.user(username).then(function (user) {
-
-                    this.user = user;
-
-                    this.busy = false;
-
-                }.bind(this));
 
             }
 

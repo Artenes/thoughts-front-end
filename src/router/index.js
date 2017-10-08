@@ -6,6 +6,8 @@ import Popular from '@/pages/Popular'
 import Search from '@/pages/Search'
 import Feed from '@/pages/Feed'
 import User from '@/pages/User'
+import Me from '@/pages/Me'
+import Pseudonym from '@/pages/Pseudonym'
 
 Vue.use(Router);
 
@@ -17,7 +19,8 @@ export default new Router({
         {path: '/search', name: 'search', component: Search},
         {path: '/feed', name: 'feed', component: Feed},
         {path: '/user/:username', name: 'user', component: User},
-        {path: '/me', name: 'me', component: User}
+        {path: '/me', name: 'me', component: Me},
+        {path: '/pseudonym', name: 'pseudonym', component: Pseudonym}
 
     ]
 })
