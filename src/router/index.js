@@ -8,6 +8,7 @@ import Feed from '@/pages/Feed'
 import User from '@/pages/User'
 import Me from '@/pages/Me'
 import Pseudonym from '@/pages/Pseudonym'
+import PostThought from '@/pages/PostThought'
 
 Vue.use(Router);
 
@@ -20,7 +21,8 @@ export default new Router({
         {path: '/feed', name: 'feed', component: Feed},
         {path: '/user/:username', name: 'user', component: User},
         {path: '/me', name: 'me', component: Me},
-        {path: '/pseudonym', name: 'pseudonym', component: Pseudonym}
+        {path: '/pseudonym', name: 'pseudonym', component: Pseudonym},
+        {path: '/post', name: 'post', component: PostThought}
 
     ]
 })

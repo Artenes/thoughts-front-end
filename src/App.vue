@@ -126,4 +126,24 @@
 
     }
 
+    .children-space > * {
+
+        margin-bottom: 1em;
+
+    }
+
+    .input-cta {
+
+        border: none;
+        width: 100%;
+        height: 50px;
+        text-align: center;
+        margin-bottom: 5em;
+        font-family: inherit;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 10px;
+        box-shadow: #ffbd55 0 10px 30px;
+
+    }
+
 </style>

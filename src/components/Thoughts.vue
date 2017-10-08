@@ -4,7 +4,7 @@
          infinite-scroll-throttle-delay="1000" infinite-scroll-distance="500">
 
         <div v-if="showSearch" class="has-text-centered">
-            <input class="search-input" type="text" v-model="query" :placeholder="searchPlaceholder">
+            <input class="input-cta" type="text" v-model="query" :placeholder="searchPlaceholder">
         </div>
 
         <div class="columns" v-for="set in chunk">
@@ -195,20 +195,6 @@
 </script>
 
 <style scoped>
-
-    .search-input {
-
-        border: none;
-        width: 100%;
-        height: 50px;
-        text-align: center;
-        margin-bottom: 5em;
-        font-family: inherit;
-        background-color: rgba(255, 255, 255, 0.9);
-        border-radius: 10px;
-        box-shadow: #ffbd55 0 10px 30px;
-
-    }
 
     .icon {
         margin-bottom: 1em;

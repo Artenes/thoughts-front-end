@@ -29,6 +29,10 @@
                     Search
                 </router-link>
 
+                <router-link to="/post" class="navbar-item" v-bind:class="{'navbar-active': current == 'post'}">
+                    Post thought
+                </router-link>
+
                 <a class="navbar-item is-hidden-desktop" v-bind:class="{'navbar-active': current == 'enter'}"
                    v-show="!isLogedIn">Log in</a>
 

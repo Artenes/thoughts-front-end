@@ -198,6 +198,24 @@ const api = {
 
         });
 
+    },
+
+    postThought(thought) {
+
+        return new Promise(function (accept, reject) {
+
+            client.post('thoughts', {body: thought}).then(function (response) {
+
+                accept(response.data);
+
+            }).catch(function (error) {
+
+                reject(error);
+
+            });
+
+        });
+
     }
 
 };
