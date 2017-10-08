@@ -18,7 +18,8 @@
 
             <div class="navbar-start">
 
-                <router-link to="/" class="navbar-item" v-bind:class="{'navbar-active': current == 'latest'}">Latest
+                <router-link to="/" class="navbar-item" v-bind:class="{'navbar-active': current == 'latest'}">
+                    Latest
                 </router-link>
 
                 <router-link to="/popular" class="navbar-item" v-bind:class="{'navbar-active': current == 'popular'}">
@@ -34,7 +35,29 @@
                 </router-link>
 
                 <a class="navbar-item is-hidden-desktop" v-bind:class="{'navbar-active': current == 'enter'}"
-                   v-show="!isLogedIn">Log in</a>
+                   v-show="!isLogedIn && !busy" @click="logIn">Log in</a>
+
+                <div v-if="isLogedIn" class="is-hidden-desktop">
+
+                    <router-link to="/me" class="navbar-item" v-bind:class="{'navbar-active': current == 'me'}">
+                        <img class="round" :src="user.avatar" :alt="user.name">
+                    </router-link>
+
+                    <router-link to="/feed" class="navbar-item" v-bind:class="{'navbar-active': current == 'feed'}">
+                        Feed
+                    </router-link>
+
+                    <router-link to="/pseudonym" class="navbar-item" v-bind:class="{'navbar-active': current == 'pseudonym'}">
+                        Pseudonym
+                    </router-link>
+
+                    <a class="navbar-item" @click="logOut">Exit</a>
+
+                </div>
+
+                <a class="navbar-item has-text-centered is-hidden-desktop" v-show="busy">
+                    <img src="./../assets/loading.svg">
+                </a>
 
             </div>
 
