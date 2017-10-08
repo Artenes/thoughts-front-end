@@ -33,6 +33,10 @@
 
             }.bind(this));
 
+            auth.onLogin((user) => {
+                this.user = user.data;
+            })
+
         }
 
     }

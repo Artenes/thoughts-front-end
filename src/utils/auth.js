@@ -89,18 +89,24 @@ class Auth {
 
     swap() {
 
-        api.swap().then(function (data) {
+        return new Promise((resolve, reject) => {
 
-            const user = this.user();
-            const pseudo = this.pseudonym();
+            api.swap().then(function (data) {
 
-            ls.set(AUTH_USER, pseudo);
-            ls.set(AUTH_PSEUDO, user);
+                const user = this.user();
+                const pseudo = this.pseudonym();
 
-            ls.set(JWT_TOKEN, data.token);
-            bus.$emit('logedin', this.user());
+                ls.set(AUTH_USER, pseudo);
+                ls.set(AUTH_PSEUDO, user);
 
-        }.bind(this));
+                ls.set(JWT_TOKEN, data.token);
+                bus.$emit('logedin', this.user());
+
+                resolve();
+
+            }.bind(this));
+
+        });
 
     }
 

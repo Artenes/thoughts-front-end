@@ -95,8 +95,9 @@
 
             swap() {
 
-                auth.swap();
-                this.$router.push('/me');
+                auth.swap().then(() => {
+                    this.$router.push('/me');
+                });
 
             }
 
