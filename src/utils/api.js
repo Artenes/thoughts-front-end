@@ -162,6 +162,42 @@ const api = {
 
         });
 
+    },
+
+    pseudonym() {
+
+        return new Promise(function (accept, reject) {
+
+            client.get('pseudonym').then(function (response) {
+
+                accept(response.data);
+
+            }).catch(function (error) {
+
+                reject(error);
+
+            });
+
+        });
+
+    },
+
+    swap() {
+
+        return new Promise(function (accept, reject) {
+
+            client.post('swap').then(function (response) {
+
+                accept(response.data);
+
+            }).catch(function (error) {
+
+                reject(error);
+
+            });
+
+        });
+
     }
 
 };

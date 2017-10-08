@@ -13,6 +13,7 @@
                     <small>{{ user.data.username }}</small>
                     <hr>
                     <follow :user="user" class="followers"></follow>
+                    <button v-if="allowPseudonym" class="button is-outlined is-info is-small btn-pseudo" @click="swap">Log in as my pseudonym</button>
                 </div>
                 <div class="has-text-centered" v-else>
                     <img src="./../assets/loading.svg">
@@ -44,6 +45,7 @@
 <script>
 
     import api from '@/utils/api';
+    import auth from '@/utils/auth';
     import Follow from '@/components/Follow';
     import UserThoughts from '@/components/UserThoughts';
     import UserLikes from '@/components/UserLikes';
@@ -52,7 +54,25 @@
 
         components: {follow: Follow, 'user-thoughts': UserThoughts, 'user-likes': UserLikes},
 
-        props: ['user', 'busy'],
+        props: {
+
+            user: {
+                type: Object,
+                required: true
+            },
+
+            busy: {
+                type: Boolean,
+                required: true
+            },
+
+            allowPseudonym: {
+                type: Boolean,
+                required: false,
+                default: false
+            }
+
+        },
 
         data() {
             return {
@@ -66,6 +86,17 @@
             user() {
 
                 this.tab = 'thoughts';
+
+            }
+
+        },
+
+        methods: {
+
+            swap() {
+
+                auth.swap();
+                this.$router.push('/me');
 
             }
 
@@ -130,6 +161,12 @@
     .tabs ul {
 
         border-bottom-color: #FFBD55;
+
+    }
+
+    .btn-pseudo {
+
+        margin-top: 1em;
 
     }
 

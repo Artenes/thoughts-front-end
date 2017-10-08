@@ -31,7 +31,7 @@ class Auth {
                     ls.set(JWT_TOKEN, data.token);
                     ls.set(AUTH_USER, data.user.data);
                     ls.set(AUTH_PSEUDO, data.user.pseudonym);
-                    bus.$emit('logedin');
+                    bus.$emit('logedin', data.user.data);
 
                     resolve();
 
@@ -54,6 +54,8 @@ class Auth {
     logout() {
 
         ls.set(JWT_TOKEN, null);
+        ls.set(AUTH_USER, null);
+        ls.set(AUTH_PSEUDO, null);
         bus.$emit('logedout');
 
     }
@@ -82,6 +84,23 @@ class Auth {
             return null;
 
         return ls.get(AUTH_PSEUDO);
+
+    }
+
+    swap() {
+
+        api.swap().then(function (data) {
+
+            const user = this.user();
+            const pseudo = this.pseudonym();
+
+            ls.set(AUTH_USER, pseudo);
+            ls.set(AUTH_PSEUDO, user);
+
+            ls.set(JWT_TOKEN, data.token);
+            bus.$emit('logedin', this.user());
+
+        }.bind(this));
 
     }
 

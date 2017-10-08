@@ -1,6 +1,6 @@
 <template>
 
-    <user v-if="user" :user="user" :busy="busy"></user>
+    <user v-if="user" :user="user" :busy="busy" :allowPseudonym="true"></user>
 
 </template>
 
@@ -25,7 +25,7 @@
 
             this.busy = true;
 
-            api.user(auth.user().username).then(function (user) {
+            api.user(auth.pseudonym().username).then(function (user) {
 
                 this.user = user;
 
