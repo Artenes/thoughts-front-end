@@ -6,7 +6,7 @@ class Facebook {
 
         window.fbAsyncInit = function () {
             FB.init({
-                appId: '104558173634417',
+                appId: process.env.FACEBOOK_APP_ID,
                 cookie: true,
                 version: 'v2.8'
             });
